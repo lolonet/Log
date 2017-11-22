@@ -16,7 +16,9 @@
 // +----------------------------------------------------------------------+
 // | 5. 提供IO接口，也就是将信息写入到文件中                                 |
 // +----------------------------------------------------------------------+
+// | 6. 对宏定义进行修改，修复不定参数为空，编译报错的情况                |
 // +----------------------------------------------------------------------+
+
 
 
 #ifndef __LOG__
@@ -45,11 +47,11 @@ enum LOG_LEVEL
 
 extern int _log_level;
 
-// 对外的接口全部用宏定义提供， 采用 do{} while(0) 消除定义域问题
-#define log_boot(format, arg...) do{ if (_log_level>=LOG_LEVEL_BOOT) _log_write(LOG_LEVEL_BOOT, __FILE__, __LINE__, __FUNCTION__, format, arg); } while(0);
-#define log_error(format, arg...) do{ if (_log_level>=LOG_LEVEL_ERROR) _log_write(LOG_LEVEL_ERROR, __FILE__, __LINE__, __FUNCTION__, format, arg); } while(0);
-#define log_warn(format, arg...) do{ if (_log_level>=LOG_LEVEL_WARN) _log_write(LOG_LEVEL_WARN, __FILE__, __LINE__, __FUNCTION__, format, arg); } while(0);
-#define log_debug(format, arg...) do { if (_log_level>=LOG_LEVEL_DEBUG) _log_write(LOG_LEVEL_DEBUG, __FILE__, __LINE__, __FUNCTION__, format, arg); } while(0);
+// 对外的接口全部用宏定义提供， 采用 do{} while(0) 消除定义域问题， ##arg 去掉当不定参数为空时，多出来的逗号
+#define log_boot(format, arg...) do{ if (_log_level>=LOG_LEVEL_BOOT) _log_write(LOG_LEVEL_BOOT, __FILE__, __LINE__, __FUNCTION__, format, ##arg); } while(0);
+#define log_error(format, arg...) do{ if (_log_level>=LOG_LEVEL_ERROR) _log_write(LOG_LEVEL_ERROR, __FILE__, __LINE__, __FUNCTION__, format, ##arg); } while(0);
+#define log_warn(format, arg...) do{ if (_log_level>=LOG_LEVEL_WARN) _log_write(LOG_LEVEL_WARN, __FILE__, __LINE__, __FUNCTION__, format, ##arg); } while(0);
+#define log_debug(format, arg...) do { if (_log_level>=LOG_LEVEL_DEBUG) _log_write(LOG_LEVEL_DEBUG, __FILE__, __LINE__, __FUNCTION__, format, ##arg); } while(0);
 #define set_log_level(level) do{ if (_log_level>=LOG_LEVEL_BOOT && _log_level<=LOG_LEVEL_DEBUG) _log_level = level; } while(0);
 #define log_init(fileName, filePath, logLevel) do{ _log_init(fileName, filePath, logLevel); } while(0);
 
