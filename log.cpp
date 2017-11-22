@@ -76,7 +76,8 @@ int _log_write(int level, const char *file, int line, const char *func, const ch
 		file, line, func, str);
 
 	// write to IO 
-	write(_log_fd, _strLogInfo, strlen(_strLogInfo));
+	if (_log_fd > 0)
+		write(_log_fd, _strLogInfo, strlen(_strLogInfo));
 
 	return 0;
 }

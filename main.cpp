@@ -21,5 +21,8 @@ int main(int argc, char *argv[])
 	// 修复不定参数为空时的编译问题
 	log_debug("Hello lolonet");
 
+	// 测试不定参数编译报警问题
+	log_debug("Hello lolonet %d", 10.1);
+
 	return 0;
 }

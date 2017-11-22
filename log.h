@@ -18,7 +18,8 @@
 // +----------------------------------------------------------------------+
 // | 6. 对宏定义进行修改，修复不定参数为空，编译报错的情况                |
 // +----------------------------------------------------------------------+
-
+// | 7. 对不定参数加上编译验证处理，__attribute__, 编译加上 -Wall         |
+// +----------------------------------------------------------------------+
 
 
 #ifndef __LOG__
@@ -56,7 +57,7 @@ extern int _log_level;
 #define log_init(fileName, filePath, logLevel) do{ _log_init(fileName, filePath, logLevel); } while(0);
 
 // 内部函数实现
-int _log_write(int level, const char *file, int line, const char *func, const char *format, ...);
+int _log_write(int level, const char *file, int line, const char *func, const char *format, ...) __attribute__((format(__printf__,5,6)));
 int _log_init(const char *fileName, const char *filePath, int logLevel=LOG_LEVEL_DEBUG);
 int _log_mkdir(const char *filePath);
 
