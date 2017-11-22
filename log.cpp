@@ -49,7 +49,7 @@ int _log_init(const char *fileName, const char *filePath, int logLevel)
 	_log_level = logLevel;
 
 	// 创建文件，保留fd
-	const int flag = O_CREAT | O_WRONLY | O_APPEND;
+	const int flag = O_CREAT | O_WRONLY | O_APPEND | O_LARGEFILE;
 	_log_fd = open(fileName, flag, 0755);
 	if (_log_fd <= 0)
 		printf("ERROR file open error\n");
