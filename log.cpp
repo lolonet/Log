@@ -61,9 +61,9 @@ int _log_write(int level, const char *file, int line, const char *func, const ch
 {
 	char str[1024] = {};
 
-	va_list vl = {};
+	va_list vl;
 	va_start(vl, format);
-	const int size = vsnprintf(str, sizeof(str), format, vl);
+	vsnprintf(str, sizeof(str), format, vl);
 	va_end(vl);
 
 	struct tm tm = {};
